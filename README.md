@@ -157,4 +157,5 @@ Patients → View related → Patient ID: <id>
 - Invalid date errors: enter dates as `YYYY-MM-DD`.
 
 ## License
-For educational use.
+© 2025 Ashington Munene — Moringa School.
+
