@@ -30,9 +30,9 @@ def cli(ctx):
         while True:
             click.echo("\nSelect an option:")
             options = [
-                "Patients: list/create/delete/find/view-related",
-                "Glucose Logs: list/create/delete/find-by-date-range/list-by-patient",
-                "Medications: list/create/delete/list-by-patient",
+                "Patients",
+                "Glucose Logs",
+                "Medications",
                 "Exit",
             ]
             for i, label in enumerate(options, start=1):
@@ -45,10 +45,10 @@ def cli(ctx):
             elif choice == 3:
                 _medications_menu()
             elif choice == 4:
-                click.echo("Goodbye!")
+                click.echo("Thank you for using the Diabetes CLI System!")
                 break
             else:
-                click.echo("Invalid choice. Try again.")
+                click.echo("Invalid choice. Choose amongst the options.")
 
 
 def _patients_menu():
@@ -75,6 +75,14 @@ def _patients_menu():
             dob = _parse_date(dob_str)
             p = Patient.create(session, name=name, date_of_birth=dob, contact=contact)
             click.echo(f"Created patient {p.id}: {p.name}")
+            # Optional initial glucose reading
+            if click.confirm("Log an initial glucose reading now?", default=False):
+                reading = click.prompt("Reading (mg/dL)", type=float)
+                if reading <= 0:
+                    click.echo("Reading must be positive. Skipping initial log.")
+                else:
+                    GlucoseLog.create(session, patient=p, reading=reading)
+                    click.echo("Initial glucose logged.")
         elif action == 3:
             pid = click.prompt("Patient ID", type=int)
             p = Patient.get_by_id(session, pid)
@@ -248,6 +256,14 @@ def add_patient(name, dob, contact):
         session.add(new_patient)
         session.commit()
         click.echo(f"✅ Patient '{name}' added successfully.")
+      
+        if click.confirm("Log an initial glucose reading now?", default=False):
+            reading = click.prompt("Reading (mg/dL)", type=float)
+            if reading <= 0:
+                click.echo("Reading must be positive. Skipping initial log.")
+            else:
+                GlucoseLog.create(session, patient=new_patient, reading=reading)
+                click.echo("Initial glucose logged.")
     except ValueError:
         click.echo("❌ Invalid date format. Please use YYYY-MM-DD.")
     except SQLAlchemyError as e:

@@ -20,7 +20,7 @@ class Medication(Base):
     def __repr__(self):
         return f"<Medication(name={self.name}, dosage={self.dosage})>"
 
-    # ----- ORM helper methods -----
+   
     @classmethod
     def create(cls, session: OrmSession, patient, name: str, dosage: str = "", start_date=None):
         instance = cls(name=name, dosage=dosage, start_date=start_date, patient=patient)
