@@ -8,6 +8,7 @@ python-dotenv = "*"
 click = "*"
 tabulate = "*"
 sqlalchemy = "*"
+alembic = "*"
 
 [dev-packages]
 pytest = "*"

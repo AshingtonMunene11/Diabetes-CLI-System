@@ -1,7 +1,7 @@
 #add-patient
 #Prompt for glucose reading and patient ID
 #add-medication
-#Show average glucose, current meds, and recent logs for a patient
+#Show average glucose, current meds, and recent logs for a patient,
 
 import click
 from sqlalchemy.exc import SQLAlchemyError
